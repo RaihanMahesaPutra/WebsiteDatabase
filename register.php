@@ -13,10 +13,15 @@ if (isset($_POST['register'])) {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $level = $_POST['level'];
 
-    // Validasi password
-    if ($password !== $confirm_password) {
+    // Validasi input
+    if (empty($username) || empty($email) || empty($password) || empty($level)) {
+        $error = "Semua field harus diisi!";
+    } elseif ($password !== $confirm_password) {
         $error = "Password dan konfirmasi tidak sama!";
+    } elseif (strlen($password) < 6) {
+        $error = "Password minimal 6 karakter!";
     } else {
         // Cek username
         $check_username = $db->koneksi->query("SELECT * FROM users WHERE username = '$username'");
@@ -28,8 +33,10 @@ if (isset($_POST['register'])) {
             if ($check_email->num_rows > 0) {
                 $error = "Email sudah digunakan!";
             } else {
+                // Hash password dan simpan
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+                $query = "INSERT INTO users (username, email, password, level) VALUES ('$username', '$email', '$hashed_password', '$level')";
+                
                 if ($db->koneksi->query($query)) {
                     $success = "Registrasi berhasil! Silakan login.";
                 } else {
@@ -72,20 +79,16 @@ if (isset($_POST['register'])) {
 </head>
 <body>
   <div class="register-box">
-    <div class="register-logo mb-4 text-center">
-      <a href="index.php"><b>Admin</b>Panel</a>
-    </div>
-
     <div class="card shadow-sm">
       <div class="card-body register-card-body">
         <p class="text-center mb-4">Daftar akun baru</p>
 
         <?php if (isset($error)): ?>
-          <div class="alert alert-danger text-center"><?php echo $error; ?></div>
+          <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
         <?php if (isset($success)): ?>
-          <div class="alert alert-success text-center"><?php echo $success; ?></div>
+          <div class="alert alert-success text-center"><?php echo htmlspecialchars($success); ?></div>
         <?php endif; ?>
 
         <form method="post">
@@ -93,7 +96,8 @@ if (isset($_POST['register'])) {
             <label class="form-label">Username</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
-              <input type="text" class="form-control" name="username" placeholder="Username" required>
+              <input type="text" class="form-control" name="username" placeholder="Username" 
+                     value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>" required>
             </div>
           </div>
 
@@ -101,7 +105,8 @@ if (isset($_POST['register'])) {
             <label class="form-label">Email</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-              <input type="email" class="form-control" name="email" placeholder="Email aktif" required>
+              <input type="email" class="form-control" name="email" placeholder="Email aktif" 
+                     value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required>
             </div>
           </div>
 
@@ -116,7 +121,7 @@ if (isset($_POST['register'])) {
             </div>
           </div>
 
-          <div class="mb-5">
+          <div class="mb-3">
             <label class="form-label">Konfirmasi Password</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fas fa-lock"></i></span>
@@ -125,6 +130,16 @@ if (isset($_POST['register'])) {
                 <i class="fas fa-eye" id="toggleIcon2"></i>
               </span>
             </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Level</label>
+            <select name="level" class="form-select" required>
+              <option value="" disabled selected>Pilih level</option>
+              <option value="admin" <?php echo (isset($_POST['level']) && $_POST['level'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+              <option value="guru" <?php echo (isset($_POST['level']) && $_POST['level'] == 'guru') ? 'selected' : ''; ?>>Guru</option>
+              <option value="siswa" <?php echo (isset($_POST['level']) && $_POST['level'] == 'siswa') ? 'selected' : ''; ?>>Siswa</option>
+            </select>
           </div>
 
           <div class="d-grid">
@@ -152,6 +167,6 @@ if (isset($_POST['register'])) {
       icon.classList.toggle('fa-eye');
       icon.classList.toggle('fa-eye-slash');
     }
-    </script>
+  </script>
 </body>
 </html>

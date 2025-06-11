@@ -1,7 +1,7 @@
 <?php
 session_start();
-include 'koneksi.php';
-$db = new Database();
+include "koneksi.php";
+$db = new database();
 
 // Cek apakah user sudah login
 if (!isset($_SESSION['username'])) {
@@ -11,20 +11,23 @@ if (!isset($_SESSION['username'])) {
 
 // Ambil data user dari database
 $user_id = $_SESSION['user_id'];
-$query = "SELECT * FROM users WHERE id = ?";
-$stmt = $db->koneksi->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$query = "SELECT * FROM users WHERE id = '$user_id'";
+$result = $db->koneksi->query($query);
 $user = $result->fetch_assoc();
 
-if (isset($_POST['Simpan'])) {
-    $db->tambah_data_agama(
-        $_POST['id_agama'],
-        $_POST['nama_agama']
-    );
-    header('location: dataagama.php');
-}  
+// Handle form submission untuk edit
+if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
+    $id_agama = $_POST['id_agama'];
+    $nama_agama = $_POST['nama_agama'];
+    
+    // Update data agama
+    $update_query = "UPDATE agama SET nama_agama = '$nama_agama' WHERE id_agama = '$id_agama'";
+    if ($db->koneksi->query($update_query)) {
+        echo "<script>alert('Data berhasil diupdate'); window.location.href='';</script>";
+    } else {
+        echo "<script>alert('Gagal mengupdate data');</script>";
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -70,7 +73,7 @@ if (isset($_POST['Simpan'])) {
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="dist/css/adminlte.css" />
+    <link rel="stylesheet" href="../dist/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
   </head>
   <!--end::Head-->
@@ -78,7 +81,7 @@ if (isset($_POST['Simpan'])) {
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
-    <!--begin::Header-->
+      <!--begin::Header-->
       <nav class="app-header navbar navbar-expand bg-body">
         <!--begin::Container-->
         <div class="container-fluid">
@@ -98,7 +101,7 @@ if (isset($_POST['Simpan'])) {
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="dist/assets/img/user2-160x160.jpg"
+                  src="../dist/assets/img/user2-160x160.jpg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -127,95 +130,58 @@ if (isset($_POST['Simpan'])) {
         </div>
         <!--end::Container-->
       </nav>
-    <!-- Sidebar -->
-    <?php include "sidebar.php"; ?>
-
-    <!-- Main -->
-    <!--begin::App Main-->
+      <!--end::Header-->
+      <?php include "Sidebar.php"; ?>
+      <!--begin::App Main-->
       <main class="app-main">
-        
         <!--begin::App Content Header-->
         <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Data Agama</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Data Agama</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="dataagama.php">Data Agama</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah Agama</li>
+                  <li class="breadcrumb-item active" aria-current="page">Simple Tables</li>
                 </ol>
               </div>
-              <div class="col-12">
-                <div class="callout callout-info">
-                  Mohon isi data dengan huruf kapital.
-                  <br />
-                  <strong>Note:</strong> Formulir ini menggunakan
-                  <a
-                    href="https://getbootstrap.com/docs/5.3/forms/overview/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="callout-link"
-                  >
-                    Bootstrap Form
-                  </a>
-                </div>
-              </div>
             </div>
-            <div class="card card-info card-outline mb-4">
-              <!--begin::Header-->
-              <div class="card-header">
-                <div class="card-title">Formulir Data Agama</div>
-              </div>
-              <!--end::Header-->  
-              <!--begin::Form-->
-                    <form action="" method="POST">
-              <!--begin::Body-->
-              <div class="card-body">
-                <div class="mb-3">
-                  <label for="id_agama" class="form-label">Kode Agama</label>
-                  <input type="text" class="form-control" id="id_agama" name="id_agama" required />
-                </div>  
-                <div class="mb-3">
-                  <label for="nama_agama" class="form-label">Nama Agama</label>
-                  <input type="text" class="form-control" id="nama_agama" name="nama_agama" required />
-                </div>
-
-                
-                        <input href="dataagama.php" type="submit" name="Simpan" value="Tambah Agama" class="submit-button">
-                    </form>
-                <!--end::Footer-->
-              </form>
-              <!--end::Form-->
-
-              <!--begin::JavaScript-->
-              <script>
-                // Example starter JavaScript for disabling form submissions if there are invalid fields
-                (() => {
-                  'use strict';
-                  const forms = document.querySelectorAll('.needs-validation');
-
-                  Array.from(forms).forEach((form) => {
-                    form.addEventListener('submit', (event) => {
-                      if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                      }
-                      form.classList.add('was-validated');
-                    }, false);
-                  });
-                })();
-              </script>
-              <!--end::JavaScript-->
-            </div>
-
-            <!--end::Container-->
+            <!--end::Row-->
           </div>
-          <!--end::App Content Header-->
-          <!--begin::App Content-->
-      
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-md-12">
+              <div class="card mb-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Table Agama</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body p-0">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>ID Agama</th>
+                          <th>Nama Agama</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                         foreach ($db->tampil_data_agama() as $x) {
+                            ?>
+                                <tr>
+                                    <td><?php echo $x['id_agama']; ?></td>
+                                    <td><?php echo $x['nama_agama']; ?></td>
+                                </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>
@@ -228,11 +194,26 @@ if (isset($_POST['Simpan'])) {
             <!--end::Row-->
           </div>
           <!--end::Container-->
-        </div>
+        </div>  
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
-  </div>
+      <!--begin::Footer-->
+      <footer class="app-footer">
+        <!--begin::To the end-->
+        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <!--end::To the end-->
+        <!--begin::Copyright-->
+        <strong>
+          Copyright &copy; 2014-2024&nbsp;
+          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+        </strong>
+        All rights reserved.
+        <!--end::Copyright-->
+      </footer>
+      <!--end::Footer-->
+    </div>
+    <!--end::App Wrapper-->
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
@@ -253,7 +234,7 @@ if (isset($_POST['Simpan'])) {
       crossorigin="anonymous"
     ></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="dist/js/adminlte.js"></script>
+    <script src="../dist/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

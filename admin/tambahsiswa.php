@@ -69,7 +69,7 @@ if (isset($_POST['Simpan'])) {
     />
     
     <!-- AdminLTE -->
-    <link rel="stylesheet" href="dist/css/adminlte.css" />
+    <link rel="stylesheet" href="../dist/css/adminlte.css" />
     
     <!-- Custom CSS -->
     <style>
@@ -209,7 +209,7 @@ if (isset($_POST['Simpan'])) {
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="dist/assets/img/user2-160x160.jpg"
+                  src="../dist/assets/img/user2-160x160.jpg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -297,7 +297,7 @@ if (isset($_POST['Simpan'])) {
                                   required
                                 >
                               </div>
-                              <div class="form-text">Nomor Induk Siswa Nasional (10 digit)</div>
+                              <div class="form-text">Nomor Induk Siswa Nasional (5 digit)</div>
                             </div>
                           </div>
                           
@@ -408,14 +408,7 @@ if (isset($_POST['Simpan'])) {
                                 <span class="input-group-text">
                                   <i class="bi bi-phone"></i>
                                 </span>
-                                <input 
-                                  type="text" 
-                                  class="form-control" 
-                                  id="nohp" 
-                                  name="nohp" 
-                                  placeholder="Masukkan No. Handphone" 
-                                  required
-                                >
+                                <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Masukkan No. Handphone" required >
                               </div>
                             </div>
                           </div>
@@ -448,11 +441,6 @@ if (isset($_POST['Simpan'])) {
                               <a href="datasiswa.php" class="btn btn-secondary">
                                 <i class="bi bi-arrow-left me-1"></i> Kembali
                               </a>
-                            </div>
-                            <div class="col-auto ms-auto">
-                              <button type="reset" class="btn btn-outline-secondary me-2">
-                                <i class="bi bi-x-circle me-1"></i> Reset
-                              </button>
                               <button type="submit" name="Simpan" class="btn btn-primary submit-btn">
                                 <i class="bi bi-save me-1"></i> Simpan Data
                               </button>
@@ -505,7 +493,7 @@ if (isset($_POST['Simpan'])) {
     ></script>
     
     <!-- AdminLTE -->
-    <script src="dist/js/adminlte.js"></script>
+    <script src="../dist/js/adminlte.js"></script>
     
     <!-- Form validation script -->
     <script>

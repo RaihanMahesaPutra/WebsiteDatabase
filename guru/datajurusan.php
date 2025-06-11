@@ -59,7 +59,7 @@ $user = $result->fetch_assoc();
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="dist/css/adminlte.css" />
+    <link rel="stylesheet" href="../dist/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
   </head>
   <!--end::Head-->
@@ -87,7 +87,7 @@ $user = $result->fetch_assoc();
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="dist/assets/img/user2-160x160.jpg"
+                  src="../dist/assets/img/user2-160x160.jpg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -124,12 +124,6 @@ $user = $result->fetch_assoc();
         <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
-            <div class="card-header">
-              <h3 class="card-title">Data Siswa</h3>
-              <a href="tambahjurusan.php" class="btn btn-primary float-end">
-                Tambah Data
-              </a>
-            </div>
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6"><h3 class="mb-0">Data Jurusan</h3></div>
@@ -163,7 +157,6 @@ $user = $result->fetch_assoc();
                       <tr>
             <th>Kode Jurusan</th>
             <th>Nama Jurusan</th>
-            <th>Option</th>
         </tr>
                       </thead>
                       <tbody>
@@ -173,75 +166,6 @@ $user = $result->fetch_assoc();
             <tr>
                 <td><?php echo $x['kodejurusan']; ?></td>
                 <td><?php echo $x['namajurusan']; ?></td>
-                <td>
-                  <button class="btn btn-warning mb-2" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#modalEdit<?= $x['kodejurusan']; ?>">
-                        Edit
-                    </button>
-                    <div class="modal fade" id="modalEdit<?= $x['kodejurusan']; ?>" 
-                                data-bs-backdrop="static" 
-                                data-bs-keyboard="false" 
-                                tabindex="-1" 
-                                aria-labelledby="labelEdit<?= $x['kodejurusan']; ?>" 
-                                aria-hidden="true">
-                              <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                  <form action="datajurusan.php" method="POST">
-                                    <div class="modal-header bg-warning">
-                                      <h5 class="modal-title" id="labelEdit<?= $x['kodejurusan']; ?>">Edit Data Jurusan</h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <input type="hidden" name="kodejurusan" value="<?= $x['kodejurusan']; ?>">
-                                      <div class="mb-3">
-                                        <label for="namajurusan<?= $x['kodejurusan']; ?>" class="form-label">Nama Jurusan</label>
-                                        <input type="text" class="form-control" id="namajurusan<?= $x['kodejurusan']; ?>" name="namajurusan" value="<?= $x['namajurusan']; ?>" required>
-                                      </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                      <button type="submit" class="btn btn-warning" name="update_jurusan">Simpan Perubahan</button>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- Tombol Hapus (trigger modal) -->
-                            <button class="btn btn-danger mb-2" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#modalHapus<?= $x['kodejurusan']; ?>">
-                              Hapus
-                            </button>
-
-                            <!-- Modal Konfirmasi Hapus -->
-                            <div class="modal fade" id="modalHapus<?= $x['kodejurusan']; ?>" 
-                                data-bs-backdrop="static" 
-                                data-bs-keyboard="false" 
-                                tabindex="-1" 
-                                aria-labelledby="labelHapus<?= $x['kodejurusan']; ?>" 
-                                aria-hidden="true">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header bg-danger text-white">
-                                    <h5 class="modal-title" id="labelHapus<?= $x['kodejurusan']; ?>">Konfirmasi Hapus</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <p>Yakin ingin menghapus data jurusan ini?</p>
-                                    <ul class="list-unstyled">
-                                      <li><strong>Kode Jurusan:</strong> <?= $x['kodejurusan']; ?></li>
-                                      <li><strong>Nama Jurusan:</strong> <?= $x['namajurusan']; ?></li>
-                                    </ul>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                    <a href="hapus_data.php?kodejurusan=<?= $x['kodejurusan']; ?>" class="btn btn-danger">Hapus</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                        </td>
                     </tr>
                 <?php } ?>
                       </tbody>
@@ -297,7 +221,7 @@ $user = $result->fetch_assoc();
       crossorigin="anonymous"
     ></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="dist/js/adminlte.js"></script>
+    <script src="../dist/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

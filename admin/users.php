@@ -26,7 +26,7 @@ if (isset($_GET['cari']) && $_GET['cari'] !== '') {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link href="dist/css/adminlte.css" rel="stylesheet">
+  <link href="../dist/css/adminlte.css" rel="stylesheet">
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
   <div class="app-wrapper">
@@ -44,7 +44,7 @@ if (isset($_GET['cari']) && $_GET['cari'] !== '') {
           <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="dist/assets/img/user2-160x160.jpg"
+                  src="../dist/assets/img/user2-160x160.jpg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -86,7 +86,7 @@ if (isset($_GET['cari']) && $_GET['cari'] !== '') {
                     <th>No</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Password</th>
+                    <th>Level</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -96,11 +96,7 @@ if (isset($_GET['cari']) && $_GET['cari'] !== '') {
                       <td><?= $no++ ?></td>
                       <td><?= htmlspecialchars($row['username']) ?></td>
                       <td><?= htmlspecialchars($row['email']) ?></td>
-                      <td>
-                        <span class="badge bg-<?= $row['password'] == 'admin' ? 'danger' : 'secondary' ?>">
-                          <?= htmlspecialchars(ucfirst($row['password'])) ?>
-                        </span>
-                      </td>
+                      <td><?= htmlspecialchars($row['level']) ?></td>
                       <td>
                         <!-- Tombol Edit -->
                         <!--<button class="btn btn-warning btn-sm mb-1" 
@@ -190,6 +186,6 @@ if (isset($_GET['cari']) && $_GET['cari'] !== '') {
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="dist/js/adminlte.js"></script>
+  <script src="../dist/js/adminlte.js"></script>
 </body>
 </html>

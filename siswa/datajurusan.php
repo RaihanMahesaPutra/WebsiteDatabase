@@ -14,20 +14,6 @@ $user_id = $_SESSION['user_id'];
 $query = "SELECT * FROM users WHERE id = '$user_id'";
 $result = $db->koneksi->query($query);
 $user = $result->fetch_assoc();
-
-// Handle form submission untuk edit
-if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
-    $id_agama = $_POST['id_agama'];
-    $nama_agama = $_POST['nama_agama'];
-    
-    // Update data agama
-    $update_query = "UPDATE agama SET nama_agama = '$nama_agama' WHERE id_agama = '$id_agama'";
-    if ($db->koneksi->query($update_query)) {
-        echo "<script>alert('Data berhasil diupdate'); window.location.href='';</script>";
-    } else {
-        echo "<script>alert('Gagal mengupdate data');</script>";
-    }
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -73,7 +59,7 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="dist/css/adminlte.css" />
+    <link rel="stylesheet" href="../dist/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
   </head>
   <!--end::Head-->
@@ -101,7 +87,7 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="dist/assets/img/user2-160x160.jpg"
+                  src="../dist/assets/img/user2-160x160.jpg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -138,15 +124,9 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
         <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
-            <div class="card-header">
-              <h3 class="card-title">Data Siswa</h3>
-              <a href="tambahagama.php" class="btn btn-primary float-end">
-                Tambah Data
-              </a>
-            </div>
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Data Agama</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Data Jurusan</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -166,107 +146,35 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
             <!--begin::Row-->
             <div class="row">
               <div class="col-md-12">
-              <div class="card mb-4">
+              <div class="card mb-">
                   <div class="card-header">
-                    <h3 class="card-title">Table Agama</h3>
+                    <h3 class="card-title">Table Jurusan</h3>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body p-0">
                     <table class="table table-striped">
                       <thead>
-                        <tr>
-                          <th>ID Agama</th>
-                          <th>Nama Agama</th>
-                          <th>Aksi</th>
-                        </tr>
+                      <tr>
+            <th>Kode Jurusan</th>
+            <th>Nama Jurusan</th>
+        </tr>
                       </thead>
                       <tbody>
-                        <?php
-                         foreach ($db->tampil_data_agama() as $x) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $x['id_agama']; ?></td>
-                                    <td><?php echo $x['nama_agama']; ?></td>
-                                    <td>
-                                        <!-- Tombol Edit (trigger modal) -->
-                                        <button class="btn btn-warning mb-2" 
-                                          data-bs-toggle="modal" 
-                                          data-bs-target="#modalEdit<?= $x['id_agama']; ?>">
-                                          Edit
-                                        </button>
-
-                                        <!-- Modal Edit -->
-                                        <div class="modal fade" id="modalEdit<?= $x['id_agama']; ?>" 
-                                            data-bs-backdrop="static" 
-                                            data-bs-keyboard="false" 
-                                            tabindex="-1" 
-                                            aria-labelledby="labelEdit<?= $x['id_agama']; ?>" 
-                                            aria-hidden="true">
-                                          <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                              <form action="" method="POST">
-                                                <div class="modal-header bg-warning">
-                                                  <h5 class="modal-title" id="labelEdit<?= $x['id_agama']; ?>">Edit Data Agama</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <input type="hidden" name="id_agama" value="<?= $x['id_agama']; ?>">
-                                                  <div class="mb-3">
-                                                    <label for="nama_agama<?= $x['id_agama']; ?>" class="form-label">Nama Agama</label>
-                                                    <input type="text" class="form-control" id="nama_agama<?= $x['id_agama']; ?>" name="nama_agama" value="<?= $x['nama_agama']; ?>" required>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                  <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
-                                                </div>
-                                              </form>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                        <!-- Tombol Hapus (trigger modal) -->
-                                        <button class="btn btn-danger mb-2" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#modalHapus<?= $x['id_agama']; ?>">
-                                          Hapus
-                                        </button>
-
-                                        <!-- Modal Konfirmasi Hapus -->
-                                        <div class="modal fade" id="modalHapus<?= $x['id_agama']; ?>" 
-                                            data-bs-backdrop="static" 
-                                            data-bs-keyboard="false" 
-                                            tabindex="-1" 
-                                            aria-labelledby="labelHapus<?= $x['id_agama']; ?>" 
-                                            aria-hidden="true">
-                                          <div class="modal-dialog">
-                                            <div class="modal-content">
-                                              <div class="modal-header bg-danger text-white">
-                                                <h5 class="modal-title" id="labelHapus<?= $x['id_agama']; ?>">Konfirmasi Hapus</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                              <div class="modal-body">
-                                                <p>Yakin ingin menghapus data agama ini?</p>
-                                                <ul class="list-unstyled">
-                                                  <li><strong>Kode Agama:</strong> <?= $x['id_agama']; ?></li>
-                                                  <li><strong>Nama Agama:</strong> <?= $x['nama_agama']; ?></li>
-                                                </ul>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                <a href="hapus_data.php?id_agama=<?= $x['id_agama']; ?>" class="btn btn-danger">Hapus</a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                        <?php } ?>
+                      <?php
+        foreach ($db->tampil_data_jurusan() as $x) {
+        ?>
+            <tr>
+                <td><?php echo $x['kodejurusan']; ?></td>
+                <td><?php echo $x['namajurusan']; ?></td>
+                
+                    </tr>
+                <?php } ?>
                       </tbody>
                     </table>
                   </div>
                   <!-- /.card-body -->
                 </div>
+                <!-- /.card -->
                 <!-- /.card -->
               </div>
               <!-- /.col -->
@@ -314,7 +222,7 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
       crossorigin="anonymous"
     ></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="dist/js/adminlte.js"></script>
+    <script src="../dist/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

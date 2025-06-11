@@ -66,35 +66,6 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon bi bi-plus-circle"></i>
-                <p>
-                  Forms
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="tambahsiswa.php" class="nav-link">
-                    <i class="nav-icon bi bi-person-plus"></i>
-                    <p>Tambah Siswa</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="tambahjurusan.php" class="nav-link">
-                    <i class="nav-icon bi bi-mortarboard"></i>
-                    <p>Tambah Jurusan</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="tambahagama.php" class="nav-link">
-                    <i class="nav-icon bi bi-book"></i>
-                    <p>Tambah Agama</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
               <li class="nav-item">
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
@@ -161,12 +132,6 @@
                     </p>
                   </a>
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                          <a href="Users.php" class="nav-link">
-                              <i class="nav-icon bi bi-people-fill"></i>
-                              <p>Users</p>
-                          </a>
-                        </li>
                         <li class="nav-item">
                           <a href="../logout.php" class="nav-link">
                               <i class="nav-icon bi bi-box-arrow-right"></i>

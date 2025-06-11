@@ -167,6 +167,12 @@
                               <p>Users</p>
                           </a>
                         </li>
+                        <li class="nav-item ms-1">
+                          <a href="profile.php" class="nav-link">
+                              <i class="bi bi-person-circle me-1"></i>
+                              <p>Profile</p>
+                          </a>
+                        </li>
                         <li class="nav-item">
                           <a href="../logout.php" class="nav-link">
                               <i class="nav-icon bi bi-box-arrow-right"></i>

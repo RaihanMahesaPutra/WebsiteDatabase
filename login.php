@@ -1,25 +1,49 @@
 <?php
-session_start();
-include "koneksi.php";
-$db = new database();
+ob_start(); // Buffer output untuk mencegah header error
 
-if (isset($_SESSION['username'])) {
-    header("Location: index.php");
+session_start();
+// Cek apakah session sudah dimulai
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+// Cek jika user sudah login, redirect ke dashboard
+if (isset($_SESSION['username']) && isset($_SESSION['level'])) {
+    switch ($_SESSION['level']) {
+        case 'admin':
+            header("Location: admin/index.php");
+            break;
+        case 'guru':
+            header("Location: guru/index.php");
+            break;
+        case 'siswa':
+            header("Location: siswa/index.php");
+            break;
+        default:
+            header("Location: unauthorized.php");
+    }
     exit();
 }
 
+include "koneksi.php";
+$db = new database();
+  
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     
-    $query = "SELECT * FROM users WHERE username = '$username'";
-    $result = $db->koneksi->query($query);
+    // Gunakan prepared statement untuk mencegah SQL injection
+    $query = "SELECT * FROM users WHERE username = ?";
+    $stmt = $db->koneksi->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['level'] = $user['level']; // Tambahkan level ke session
             header("Location: index.php");
             exit();
         } else {
@@ -91,13 +115,12 @@ if (isset($_POST['login'])) {
 
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <div class="input-group"><div class="input-group">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password" required>
-            <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
-              <i class="fas fa-eye" id="toggleIcon"></i>
-            </span>
-          </div>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password" required>
+              <span class="input-group-text" onclick="togglePassword()" style="cursor: pointer;">
+                <i class="fas fa-eye" id="toggleIcon"></i>
+              </span>
             </div>
           </div>
 
@@ -130,7 +153,7 @@ if (isset($_POST['login'])) {
       toggleIcon.classList.toggle('fa-eye');
       toggleIcon.classList.toggle('fa-eye-slash');
     }
-    </script>
+  </script>
 
 </body>
 </html>
