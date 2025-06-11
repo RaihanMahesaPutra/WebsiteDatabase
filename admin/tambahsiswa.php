@@ -294,10 +294,11 @@ if (isset($_POST['Simpan'])) {
                                   id="nisn" 
                                   name="nisn" 
                                   placeholder="Masukkan NISN" 
+                                  maxlength="10"
                                   required
                                 >
                               </div>
-                              <div class="form-text">Nomor Induk Siswa Nasional (5 digit)</div>
+                              <div class="form-text">Nomor Induk Siswa Nasional (10 digit)</div>
                             </div>
                           </div>
                           
@@ -406,9 +407,17 @@ if (isset($_POST['Simpan'])) {
                               <label for="nohp" class="form-label required">No. Handphone</label>
                               <div class="input-group">
                                 <span class="input-group-text">
+                                  <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="no_telp" 
+                                    name="no_telp" 
+                                    placeholder="Masukkan No Telepon" 
+                                    maxlength="13" 
+                                    required
+                                  >
                                   <i class="bi bi-phone"></i>
                                 </span>
-                                <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Masukkan No. Handphone" required >
                               </div>
                             </div>
                           </div>
@@ -539,6 +548,14 @@ if (isset($_POST['Simpan'])) {
           });
         }
       });
+      document.getElementById('nisn').addEventListener('input', function () {
+    // Hapus semua karakter non-angka, lalu potong maksimal 10 digit
+    this.value = this.value.replace(/\D/g, '').slice(0, 10);
+  });
+  document.getElementById('no_telp').addEventListener('input', function () {
+    // Hapus semua karakter non-angka, lalu potong maksimal 13 digit
+    this.value = this.value.replace(/\D/g, '').slice(0, 13);
+  })
     </script>
   </body>
 </html>

@@ -282,21 +282,153 @@ while ($row = $result_siswa->fetch_assoc()) {
           </div>
 
           <!-- Pie Chart untuk Jenis Kelamin -->
-          <div class="col-md-6 mb-4">
-              <div class="card shadow-sm h-100">
-                  <div class="card-header bg-success text-white">
-                      <h5 class="card-title mb-0">Statistik Jenis Kelamin Siswa</h5>
-                  </div>
-                  <div class="card-body d-flex flex-column">
-                      <div class="chart-container" style="position: relative; height: 250px; width: 100%">
-                          <canvas id="genderPieChart"></canvas>
-                      </div>
-                  </div>
-              </div>
-          </div>
+<div class="col-md-6 mb-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-header bg-success text-white">
+            <h5 class="card-title mb-0">Statistik Jenis Kelamin Siswa</h5>
+        </div>
+        <div class="card-body d-flex flex-column">
+            <div class="chart-container" style="position: relative; height: 250px; width: 100%">
+                <canvas id="genderBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
       </div>
 
       <script>
+        // Fungsi untuk membuat bar chart yang menarik
+function createBarChart(elementId, labels, data, colors, title) {
+    const ctx = document.getElementById(elementId).getContext('2d');
+    
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Jumlah Siswa',
+                data: data,
+                backgroundColor: colors,
+                borderColor: colors.map(color => color.replace('0.8', '1')), // Full opacity for border
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 10,
+                    left: 10,
+                    right: 10
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 12,
+                            family: 'Source Sans Pro'
+                        },
+                        color: '#6c757d'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        drawBorder: false
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 13,
+                            weight: '500',
+                            family: 'Source Sans Pro'
+                        },
+                        color: '#495057'
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // Hide legend for cleaner look
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#ffffff',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((context.raw / total) * 100);
+                            return `${context.label}: ${context.raw} siswa (${percentage}%)`;
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
+            },
+            elements: {
+                bar: {
+                    borderWidth: 2,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            }
+        },
+        plugins: [{
+            // Plugin untuk menampilkan nilai di atas bar
+            id: 'dataLabels',
+            afterDatasetsDraw: function(chart) {
+                const ctx = chart.ctx;
+                chart.data.datasets.forEach((dataset, i) => {
+                    const meta = chart.getDatasetMeta(i);
+                    meta.data.forEach((bar, index) => {
+                        const data = dataset.data[index];
+                        ctx.fillStyle = '#495057';
+                        ctx.font = 'bold 14px Source Sans Pro';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(data, bar.x, bar.y - 5);
+                    });
+                });
+            }
+        }]
+    });
+}
+
+// TAMBAHKAN INI SETELAH SCRIPT CHART AGAMA YANG SUDAH ADA
+// Inisialisasi Bar Chart untuk Jenis Kelamin
+createBarChart(
+    'genderBarChart',
+    <?= json_encode($gender_labels); ?>,
+    <?= json_encode($gender_data); ?>,
+    ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'], // Blue for Male, Pink for Female
+    'Statistik Jenis Kelamin'
+);
           // Fungsi untuk membuat pie chart yang lebih rapi
           function createPieChart(elementId, labels, data, colors) {
               const ctx = document.getElementById(elementId).getContext('2d');

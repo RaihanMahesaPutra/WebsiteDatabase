@@ -176,7 +176,7 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
                         <tr>
                           <th>ID Agama</th>
                           <th>Nama Agama</th>
-                          <th>Aksi</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -188,14 +188,14 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
                                     <td><?php echo $x['nama_agama']; ?></td>
                                     <td>
                                         <!-- Tombol Edit (trigger modal) -->
-                                        <button class="btn btn-warning mb-2" 
+                                        <!-- <button class="btn btn-warning mb-2" 
                                           data-bs-toggle="modal" 
                                           data-bs-target="#modalEdit<?= $x['id_agama']; ?>">
                                           Edit
-                                        </button>
+                                        </button> -->
 
                                         <!-- Modal Edit -->
-                                        <div class="modal fade" id="modalEdit<?= $x['id_agama']; ?>" 
+                                        <!-- <div class="modal fade" id="modalEdit<?= $x['id_agama']; ?>" 
                                             data-bs-backdrop="static" 
                                             data-bs-keyboard="false" 
                                             tabindex="-1" 
@@ -222,17 +222,17 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
                                               </form>
                                             </div>
                                           </div>
-                                        </div>
+                                        </div> -->
 
                                         <!-- Tombol Hapus (trigger modal) -->
-                                        <button class="btn btn-danger mb-2" 
+                                        <!-- <button class="btn btn-danger mb-2" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#modalHapus<?= $x['id_agama']; ?>">
                                           Hapus
-                                        </button>
+                                        </button> -->
 
                                         <!-- Modal Konfirmasi Hapus -->
-                                        <div class="modal fade" id="modalHapus<?= $x['id_agama']; ?>" 
+                                        <!-- <div class="modal fade" id="modalHapus<?= $x['id_agama']; ?>" 
                                             data-bs-backdrop="static" 
                                             data-bs-keyboard="false" 
                                             tabindex="-1" 
@@ -257,7 +257,7 @@ if ($_POST && isset($_POST['id_agama']) && isset($_POST['nama_agama'])) {
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
+                                        </div> -->
                                     </td>
                                 </tr>
                         <?php } ?>

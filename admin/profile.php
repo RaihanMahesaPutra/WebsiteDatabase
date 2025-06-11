@@ -324,7 +324,7 @@ $user = $result->fetch_assoc();
                     <a href="profile.php" class="btn btn-outline-secondary w-100 me-1">
                       <i class="bi bi-person-circle me-1"></i> Profile
                     </a>
-                    <a href="logout.php" class="btn btn-outline-danger w-100 ms-1">
+                    <a href="../logout.php" class="btn btn-outline-danger w-100 ms-1">
                       <i class="bi bi-box-arrow-right me-1"></i> Logout
                     </a>
                   </div>

@@ -133,10 +133,6 @@ if (isset($_POST['login'])) {
 
           <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
         </form>
-
-        <div class="mt-3 text-center">
-          <a href="register.php">Belum punya akun? Daftar</a>
-        </div>
       </div>
     </div>
   </div>
